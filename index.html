@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Color Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Photo Color Analyzer</h1>
+        <p class="subtitle">AI-Powered Color Analysis for Your Images</p>
+    </header>
+
+    <main>
+        <section class="intro-section">
+            <h2>Discover the Colors in Your Photos</h2>
+            <div class="intro-content">
+                <p>Our advanced machine learning algorithm analyzes your images to extract their dominant colors and create beautiful color palettes. Simply upload a folder of images, and our AI will:</p>
+                <ul>
+                    <li>Process each image using sophisticated color analysis</li>
+                    <li>Extract the most prominent colors automatically</li>
+                    <li>Generate a visual color palette for each photo</li>
+                    <li>Display the results in an easy-to-understand format</li>
+                </ul>
+                <p>Perfect for designers, artists, and anyone interested in color theory!</p>
+            </div>
+        </section>
+
+        <section class="upload-section">
+            <div class="button-row">
+                <input type="file" id="folderInput" webkitdirectory directory multiple style="display:none;">
+                <label class="file-input-button" for="folderInput">Analyze Folder</label>
+                <button id="clearResultsBtn" class="file-input-button" type="button">Clear Results</button>
+            </div>
+        </section>
+        <section id="results" class="results-section">
+            <!-- Results will be displayed here -->
+        </section>
+    </main>
+
+    <footer>
+        <p>Powered by advanced color analysis algorithms</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
