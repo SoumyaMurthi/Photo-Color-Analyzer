@@ -1,10 +1,29 @@
 const folderInput = document.getElementById('folderInput');
 const resultsDiv = document.getElementById('results');
 const colorThief = new ColorThief();
+<<<<<<< HEAD
+=======
+const viewToggle = document.getElementById('viewToggle');
+let showImages = false;
+
+// Initialize view toggle
+viewToggle.addEventListener('click', () => {
+    showImages = !showImages;
+    viewToggle.classList.toggle('active');
+    viewToggle.querySelector('.toggle-label').textContent = showImages ? 'Hide Images' : 'Show Images';
+    // Clear and reprocess current results with new view setting
+    const currentFiles = folderInput.files;
+    if (currentFiles && currentFiles.length > 0) {
+        resultsDiv.innerHTML = '';
+        processFiles(currentFiles);
+    }
+});
+>>>>>>> color-analysis-only
 
 folderInput.addEventListener('change', (event) => {
     resultsDiv.innerHTML = '';
     const files = event.target.files;
+<<<<<<< HEAD
     console.log('Files selected:', files); // Log 1
 
     for (const file of files) {
@@ -21,6 +40,24 @@ folderInput.addEventListener('change', (event) => {
                         const palette = colorThief.getPalette(img, 3);
                         console.log('Palette for', file.name, ':', palette); // Log 5
                         displayPhoto(file.name, img.src, palette);
+=======
+
+    for (const file of files) {
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.src = e.target.result;
+                img.onload = () => {
+                    try {
+                        const palette = colorThief.getPalette(img, 3);
+                        if (FEATURES.SHOW_IMAGES) {
+                            displayPhoto(file.name, img.src, palette);
+                        } else {
+                            displayColors(palette);
+                        }
+>>>>>>> color-analysis-only
                     } catch (error) {
                         console.error(`Error processing ${file.name}:`, error);
                     }
@@ -31,6 +68,35 @@ folderInput.addEventListener('change', (event) => {
     }
 });
 
+<<<<<<< HEAD
+=======
+function processFiles(files) {
+    for (const file of files) {
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.src = e.target.result;
+                img.onload = () => {
+                    try {
+                        const palette = colorThief.getPalette(img, 3);
+                        if (showImages) {
+                            displayPhoto(file.name, img.src, palette);
+                        } else {
+                            displayColors(palette);
+                        }
+                    } catch (error) {
+                        console.error(`Error processing ${file.name}:`, error);
+                    }
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+}
+
+>>>>>>> color-analysis-only
 function displayPhoto(fileName, imgSrc, palette) {
     const container = document.createElement('div');
     container.className = 'photo-container';
@@ -39,9 +105,41 @@ function displayPhoto(fileName, imgSrc, palette) {
     img.src = imgSrc;
     container.appendChild(img);
 
+<<<<<<< HEAD
     const paletteDiv = document.createElement('div');
     paletteDiv.className = 'color-palette';
 
+=======
+    const name = document.createElement('h3');
+    name.textContent = fileName;
+    container.appendChild(name);
+
+    displayColorPalette(container, palette);
+    resultsDiv.appendChild(container);
+}
+
+function displayColors(palette) {
+    const container = document.createElement('div');
+    container.className = 'photo-container';
+    displayColorPalette(container, palette);
+    resultsDiv.appendChild(container);
+}
+
+function displayColorPalette(container, palette) {
+    const paletteDiv = document.createElement('div');
+    paletteDiv.className = 'color-palette';
+
+    // Create a message about the primary colors
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'color-message';
+    const colorNames = palette.map(color => {
+        const hexColor = rgbToHex(color[0], color[1], color[2]);
+        return getColorName(hexColor);
+    });
+    messageDiv.textContent = `Primary colors found: ${colorNames.join(', ')}`;
+    container.appendChild(messageDiv);
+
+>>>>>>> color-analysis-only
     palette.forEach(color => {
         // Color box
         const colorBox = document.createElement('div');
@@ -76,12 +174,15 @@ function displayPhoto(fileName, imgSrc, palette) {
     });
 
     container.appendChild(paletteDiv);
+<<<<<<< HEAD
 
     const name = document.createElement('p');
     name.textContent = fileName;
     container.appendChild(name);
 
     resultsDiv.appendChild(container);
+=======
+>>>>>>> color-analysis-only
 }
 
 function rgbToHex(r, g, b) {

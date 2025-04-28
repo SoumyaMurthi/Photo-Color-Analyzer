@@ -138,7 +138,11 @@ main {
 
 .photo-container {
     background: white;
+<<<<<<< HEAD
     padding: 0.8rem;
+=======
+    padding: 1.2rem;
+>>>>>>> color-analysis-only
     border-radius: 6px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
@@ -242,4 +246,56 @@ footer {
 .button-row button {
     min-width: 150px;
     text-align: center;
+<<<<<<< HEAD
+=======
+}
+
+.color-message {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.view-toggle {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.toggle-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.toggle-button:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+}
+
+.toggle-button.active {
+    background-color: #28a745;
+}
+
+.toggle-button.active .toggle-label {
+    content: "Hide Images";
+}
+
+.toggle-icon {
+    font-size: 1.1rem;
+>>>>>>> color-analysis-only
 }
