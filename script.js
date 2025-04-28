@@ -1,25 +1,41 @@
 const folderInput = document.getElementById('folderInput');
 const resultsDiv = document.getElementById('results');
 const colorThief = new ColorThief();
+const viewToggle = document.getElementById('viewToggle');
+let showImages = false;
+
+// Initialize view toggle
+viewToggle.addEventListener('click', () => {
+    showImages = !showImages;
+    viewToggle.classList.toggle('active');
+    viewToggle.querySelector('.toggle-label').textContent = showImages ? 'Hide Images' : 'Show Images';
+    // Clear and reprocess current results with new view setting
+    const currentFiles = folderInput.files;
+    if (currentFiles && currentFiles.length > 0) {
+        resultsDiv.innerHTML = '';
+        processFiles(currentFiles);
+    }
+});
 
 folderInput.addEventListener('change', (event) => {
     resultsDiv.innerHTML = '';
     const files = event.target.files;
-    console.log('Files selected:', files);
 
     for (const file of files) {
         if (file.type.startsWith('image/')) {
-            console.log('Processing file:', file.name);
             const reader = new FileReader();
             reader.onload = (e) => {
                 const img = new Image();
-                img.crossOrigin = 'Anonymous'; // Add this to handle CORS issues
+                img.crossOrigin = 'Anonymous';
                 img.src = e.target.result;
                 img.onload = () => {
                     try {
                         const palette = colorThief.getPalette(img, 3);
-                        console.log('Palette for', file.name, ':', palette);
-                        displayColors(palette);
+                        if (FEATURES.SHOW_IMAGES) {
+                            displayPhoto(file.name, img.src, palette);
+                        } else {
+                            displayColors(palette);
+                        }
                     } catch (error) {
                         console.error(`Error processing ${file.name}:`, error);
                     }
@@ -30,10 +46,56 @@ folderInput.addEventListener('change', (event) => {
     }
 });
 
-function displayColors(palette) {
+function processFiles(files) {
+    for (const file of files) {
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.src = e.target.result;
+                img.onload = () => {
+                    try {
+                        const palette = colorThief.getPalette(img, 3);
+                        if (showImages) {
+                            displayPhoto(file.name, img.src, palette);
+                        } else {
+                            displayColors(palette);
+                        }
+                    } catch (error) {
+                        console.error(`Error processing ${file.name}:`, error);
+                    }
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+}
+
+function displayPhoto(fileName, imgSrc, palette) {
     const container = document.createElement('div');
     container.className = 'photo-container';
 
+    const img = document.createElement('img');
+    img.src = imgSrc;
+    container.appendChild(img);
+
+    const name = document.createElement('h3');
+    name.textContent = fileName;
+    container.appendChild(name);
+
+    displayColorPalette(container, palette);
+    resultsDiv.appendChild(container);
+}
+
+function displayColors(palette) {
+    const container = document.createElement('div');
+    container.className = 'photo-container';
+    displayColorPalette(container, palette);
+    resultsDiv.appendChild(container);
+}
+
+function displayColorPalette(container, palette) {
     const paletteDiv = document.createElement('div');
     paletteDiv.className = 'color-palette';
 
@@ -81,7 +143,6 @@ function displayColors(palette) {
     });
 
     container.appendChild(paletteDiv);
-    resultsDiv.appendChild(container);
 }
 
 function rgbToHex(r, g, b) {

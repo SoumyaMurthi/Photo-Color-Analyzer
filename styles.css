@@ -255,3 +255,40 @@ footer {
     border: 1px solid #ddd;
     text-align: center;
 }
+
+.view-toggle {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.toggle-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.toggle-button:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+}
+
+.toggle-button.active {
+    background-color: #28a745;
+}
+
+.toggle-button.active .toggle-label {
+    content: "Hide Images";
+}
+
+.toggle-icon {
+    font-size: 1.1rem;
+}
