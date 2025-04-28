@@ -5,22 +5,21 @@ const colorThief = new ColorThief();
 folderInput.addEventListener('change', (event) => {
     resultsDiv.innerHTML = '';
     const files = event.target.files;
-    console.log('Files selected:', files); // Log 1
+    console.log('Files selected:', files);
 
     for (const file of files) {
         if (file.type.startsWith('image/')) {
-            console.log('Processing file:', file.name); // Log 2
+            console.log('Processing file:', file.name);
             const reader = new FileReader();
             reader.onload = (e) => {
-                console.log('FileReader loaded:', file.name); // Log 3
                 const img = new Image();
+                img.crossOrigin = 'Anonymous'; // Add this to handle CORS issues
                 img.src = e.target.result;
                 img.onload = () => {
-                    console.log('Image loaded:', file.name); // Log 4
                     try {
                         const palette = colorThief.getPalette(img, 3);
-                        console.log('Palette for', file.name, ':', palette); // Log 5
-                        displayPhoto(file.name, img.src, palette);
+                        console.log('Palette for', file.name, ':', palette);
+                        displayColors(palette);
                     } catch (error) {
                         console.error(`Error processing ${file.name}:`, error);
                     }
@@ -31,7 +30,7 @@ folderInput.addEventListener('change', (event) => {
     }
 });
 
-function displayPhoto(fileName, imgSrc, palette) {
+function displayColors(palette) {
     const container = document.createElement('div');
     container.className = 'photo-container';
 
