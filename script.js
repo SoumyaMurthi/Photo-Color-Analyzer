@@ -35,12 +35,18 @@ function displayPhoto(fileName, imgSrc, palette) {
     const container = document.createElement('div');
     container.className = 'photo-container';
 
-    const img = document.createElement('img');
-    img.src = imgSrc;
-    container.appendChild(img);
-
     const paletteDiv = document.createElement('div');
     paletteDiv.className = 'color-palette';
+
+    // Create a message about the primary colors
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'color-message';
+    const colorNames = palette.map(color => {
+        const hexColor = rgbToHex(color[0], color[1], color[2]);
+        return getColorName(hexColor);
+    });
+    messageDiv.textContent = `Primary colors found: ${colorNames.join(', ')}`;
+    container.appendChild(messageDiv);
 
     palette.forEach(color => {
         // Color box
@@ -76,11 +82,6 @@ function displayPhoto(fileName, imgSrc, palette) {
     });
 
     container.appendChild(paletteDiv);
-
-    const name = document.createElement('p');
-    name.textContent = fileName;
-    container.appendChild(name);
-
     resultsDiv.appendChild(container);
 }
 
